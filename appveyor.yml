@@ -1,0 +1,14 @@
+version: 1.0.0.{build}
+
+configuration: Debug
+
+before_build:
+  - nuget restore 
+
+test:
+  assemblies:
+    - '**\*.Tests.dll'
+    
+artifacts:  
+- path: '**\*.nupkg'
+  name: NuGet
