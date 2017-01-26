@@ -3,7 +3,7 @@ version: 1.0.0.{build}
 configuration: Debug
 
 before_build:
-  - nuget restore 
+  - nuget restore "./src/Egor92.Deferrals.sln"
 
 test:
   assemblies:
