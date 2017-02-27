@@ -4,13 +4,14 @@ using System.Linq;
 
 namespace Egor92.Deferrals
 {
-    public class DeferralSource
+    public class DeferralSource : IDisposable
     {
         #region Fields
 
+        private readonly object _syncRoot = new object();
         private bool _isCompleted;
         private readonly Action _deferrableAction;
-        private readonly IList<IDeferral> _deferrals = new List<IDeferral>();
+        private readonly IList<Deferral> _notCompletedDeferrals = new List<Deferral>();
 
         #endregion
 
@@ -27,41 +28,61 @@ namespace Egor92.Deferrals
 
         #region Implementation of IDisposable
 
-        //public void Dispose()
-        //{
-        //    foreach (var continuable in _deferrals)
-        //    {
-        //        continuable.Completed -= OnDeferralCompleted;
-        //    }
-        //}
+        public void Dispose()
+        {
+            lock (_syncRoot)
+            {
+                foreach (var deferral in _notCompletedDeferrals)
+                {
+                    deferral.Completed -= OnDeferralCompleted;
+                }
+                _isCompleted = true;
+            }
+        }
 
         #endregion
 
         public IDeferral CreateDeferral()
         {
-            var continuable = new Deferral();
-            _deferrals.Add(continuable);
-            continuable.Completed += OnDeferralCompleted;
-            return continuable;
+            lock (_syncRoot)
+            {
+                var deferral = new Deferral();
+                if (!_isCompleted)
+                {
+                    _notCompletedDeferrals.Add(deferral);
+                    deferral.Completed += OnDeferralCompleted;
+                }
+                return deferral;
+            }
         }
 
         public void Invoke()
         {
-            InvokeIfCan();
+            InvokeDeferrableActionIfCan();
         }
 
-        private void InvokeIfCan()
+        private void InvokeDeferrableActionIfCan()
         {
-            var canContinue = _deferrals.All(x => x.IsCompleted);
-            if (!canContinue)
-                return;
-
-            _deferrableAction();
+            lock (_syncRoot)
+            {
+                var canInvoke = !_notCompletedDeferrals.Any();
+                if (canInvoke)
+                {
+                    _deferrableAction();
+                    _isCompleted = true;
+                }
+            }
         }
 
         private void OnDeferralCompleted(object sender, EventArgs e)
         {
-            InvokeIfCan();
+            lock (_syncRoot)
+            {
+                var completedDeferral = (Deferral) sender;
+                completedDeferral.Completed -= OnDeferralCompleted;
+                _notCompletedDeferrals.Remove(completedDeferral);
+            }
+            InvokeDeferrableActionIfCan();
         }
     }
 }

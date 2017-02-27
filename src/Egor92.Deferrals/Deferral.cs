@@ -6,8 +6,6 @@ namespace Egor92.Deferrals
     {
         bool IsCompleted { get; }
 
-        event EventHandler Completed;
-
         void Complete();
     }
 
@@ -19,9 +17,15 @@ namespace Egor92.Deferrals
 
         #endregion
 
-        #region Implementation of IDeferral
+        #region Properties
+
+        #region IsCompleted
 
         public bool IsCompleted { get; private set; }
+
+        #endregion
+
+        #endregion
 
         #region Completed
 
@@ -33,6 +37,8 @@ namespace Egor92.Deferrals
         }
 
         #endregion
+
+        #region Implementation of IDeferral
 
         public void Complete()
         {

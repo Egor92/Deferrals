@@ -117,5 +117,30 @@ namespace Egor92.Deferrals.Tests
 
             Assert.IsFalse(isDeferredActionInvoked, "Deferred action was invoked");
         }
+
+        [Test]
+        public void IfDisposeDeferralSource_ThenDeferredActionWillNotInvoke()
+        {
+            bool isDeferredActionInvoked = false;
+            var deferralSource = new DeferralSource(() => isDeferredActionInvoked = true);
+
+            deferralSource.Dispose();
+
+            Assert.IsFalse(isDeferredActionInvoked, "Deferred action was invoked");
+        }
+
+        [Test]
+        public void IfDisposeDeferralSource_AndCreateDeferralAndCompleteIt_ThenDeferredActionWillNotInvoke()
+        {
+            bool isDeferredActionInvoked = false;
+            var deferralSource = new DeferralSource(() => isDeferredActionInvoked = true);
+
+            deferralSource.Dispose();
+
+            var deferral = deferralSource.CreateDeferral();
+            deferral.Complete();
+
+            Assert.IsFalse(isDeferredActionInvoked, "Deferred action was invoked");
+        }
     }
 }

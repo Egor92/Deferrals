@@ -1,6 +1,9 @@
-version: 1.0.0.{build}
+version: 0.1.0.{build}
 
-configuration: Debug
+platform: Any CPU
+configuration: Release(Setup)
+
+skip_tags: true
 
 before_build:
   - nuget restore "./src/Egor92.Deferrals.sln"
