@@ -1,7 +1,7 @@
 version: 0.1.0.{build}
 
 platform: Any CPU
-configuration: Release(Setup)
+configuration: Release
 
 skip_tags: true
 
