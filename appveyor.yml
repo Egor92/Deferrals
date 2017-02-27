@@ -1,0 +1,17 @@
+version: 0.1.0.{build}
+
+platform: Any CPU
+configuration: Release(Setup)
+
+skip_tags: true
+
+before_build:
+  - nuget restore "./src/Egor92.Deferrals.sln"
+
+test:
+  assemblies:
+    - '**\*.Tests.dll'
+    
+artifacts:  
+- path: '**\*.nupkg'
+  name: NuGet
