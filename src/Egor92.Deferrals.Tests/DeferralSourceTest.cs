@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 
 namespace Egor92.Deferrals.Tests
@@ -81,13 +83,13 @@ namespace Egor92.Deferrals.Tests
             var deferrals = Enumerable.Range(0, deferralCount)
                                       .Select(x => deferralSource.CreateDeferral())
                                       .ToList();
-            for (int i = 0; i < deferralCount/2; i++)
+            for (int i = 0; i < deferralCount / 2; i++)
             {
                 deferrals[i].Complete();
             }
 
             deferralSource.Invoke();
-            for (int i = deferralCount/2; i < deferralCount; i++)
+            for (int i = deferralCount / 2; i < deferralCount; i++)
             {
                 deferrals[i].Complete();
             }
@@ -104,13 +106,13 @@ namespace Egor92.Deferrals.Tests
             var deferrals = Enumerable.Range(0, deferralCount)
                                       .Select(x => deferralSource.CreateDeferral())
                                       .ToList();
-            for (int i = 0; i < deferralCount/2; i++)
+            for (int i = 0; i < deferralCount / 2; i++)
             {
                 deferrals[i].Complete();
             }
 
             deferralSource.Invoke();
-            for (int i = deferralCount/2; i < deferralCount - 1; i++)
+            for (int i = deferralCount / 2; i < deferralCount - 1; i++)
             {
                 deferrals[i].Complete();
             }
@@ -141,6 +143,27 @@ namespace Egor92.Deferrals.Tests
             deferral.Complete();
 
             Assert.IsFalse(isDeferredActionInvoked, "Deferred action was invoked");
+        }
+
+        [Test]
+        public void IfSeveralThreadsCreateDeferrals_ThenAllDeferralsWillBeAddedToNotCompletedDeferralsList()
+        {
+            var deferralSource = new DeferralSource(() =>
+            {
+            });
+
+            const int taskCont = 1000;
+            var deferrals = Enumerable.Range(0, taskCont)
+                                      .AsParallel()
+                                      .Select(_ => deferralSource.CreateDeferral())
+                                      .ToArray();
+            var notCompletedDeferralsField = typeof(DeferralSource).GetField("_notCompletedDeferrals",
+                                                                             BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.That(notCompletedDeferralsField, Is.Not.Null, "DeferralSource._notCompletedDeferrals field is not found");
+
+            var notCompletedDeferrals = (IList<Deferral>)notCompletedDeferralsField.GetValue(deferralSource);
+            Assert.That(notCompletedDeferrals.Count, Is.EqualTo(taskCont));
+            CollectionAssert.AreEquivalent(deferrals, notCompletedDeferrals);
         }
     }
 }
