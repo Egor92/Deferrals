@@ -26,7 +26,7 @@ after_test:
   - ps: .\nuget\pack.ps1
 
 artifacts:
-  - path: 'NuGet\Egor92.Deferrals.nupkg'
+  - path: /NuGet\\Egor92\.Deferrals\..*\.nupkg/
   
 deploy:
   provider: NuGet
