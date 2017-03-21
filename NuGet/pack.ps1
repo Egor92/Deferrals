@@ -9,4 +9,4 @@ $content = $content -replace '\$version\$',$versionStr
 
 $content | Out-File $root\NuGet\Egor92.Deferrals.compiled.nuspec
 
-& $root\NuGet\NuGet.exe pack $root\NuGet\Egor92.Deferrals.compiled.nuspec
+& $root\NuGet\NuGet.exe pack $root\NuGet\Egor92.Deferrals.compiled.nuspec -outputdirectory $root\NuGet\Egor92.Deferrals.nupkg
