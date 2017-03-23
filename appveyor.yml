@@ -24,7 +24,7 @@ test:
     - '**\*.Tests.dll'
 
 artifacts:  
-  - path: '*.nupkg'
+  - path: '**.nupkg'
     name: NuGet package
   
 deploy:
@@ -33,11 +33,11 @@ deploy:
     api_key:
       secure: Enbbe1MRpwxTk+l70bA1DfoJq62BO4S01RRKFDL4Fx83I/f3W4D4MQJTRXrNwkFj
     skip_symbols: true
-    artifact: '*.nupkg'
+    artifact: '**.nupkg'
   
   # Deploy to GitHub Releases
   - provider: GitHub
-    artifact: '*.nupkg'
+    artifact: '**.nupkg'
     draft: false
     prerelease: false
     #on:
