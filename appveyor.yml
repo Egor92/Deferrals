@@ -1,6 +1,4 @@
-environment:
-  repository_name: "Egor92.Deferrals"
-
+repository_name: 1.1.0.{build}
 version: 1.1.0.{build}
 
 platform: Any CPU
@@ -16,10 +14,10 @@ assembly_info:
   assembly_informational_version: "{version}"
   
 before_build:
-  - nuget restore "./src/{repository_name}.sln"
+  - nuget restore "./src/Egor92.Deferrals.sln"
 
 build:
-  project: src\{repository_name}.sln
+  project: src\Egor92.Deferrals.sln
   publish_nuget: true
   
 test:
