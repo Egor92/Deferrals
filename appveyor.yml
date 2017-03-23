@@ -34,6 +34,8 @@ deploy:
       secure: Enbbe1MRpwxTk+l70bA1DfoJq62BO4S01RRKFDL4Fx83I/f3W4D4MQJTRXrNwkFj
     skip_symbols: true
     artifact: /.*\.nupkg/
+    on:
+      branch: master
   
   # Deploy to GitHub Releases
   - provider: GitHub
