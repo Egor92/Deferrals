@@ -14,6 +14,6 @@
         <tags>algorithm pause pausing resume resuming subcsribe subcsriber</tags>
     </metadata>
     <files>
-        <file src="..\src\Egor92.Deferrals\bin\Release\Egor92.Deferrals.dll" target="lib\Egor92.Deferrals.dll" />
+        <file src=".\bin\Release\Egor92.Deferrals.dll" target="lib\Egor92.Deferrals.dll" />
     </files>
 </package>
