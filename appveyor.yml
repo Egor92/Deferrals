@@ -1,3 +1,6 @@
+environment:
+  repository_name: "Egor92.Deferrals"
+
 version: 1.1.0.{build}
 
 platform: Any CPU
@@ -13,10 +16,10 @@ assembly_info:
   assembly_informational_version: "{version}"
   
 before_build:
-  - nuget restore "./src/Egor92.Deferrals.sln"
+  - nuget restore "./src/{repository_name}.sln"
 
 build:
-  project: src\Egor92.Deferrals.sln
+  project: src\{repository_name}.sln
   publish_nuget: true
   
 test:
@@ -42,6 +45,6 @@ deploy:
     prerelease: false
     auth_token:
       secure: F00nbLt278uSgQKKvDMLxc6AXtaZNE4b9WcDfDZ79T1gN23xhpLtoeguU6B0tSuV
-    #on:
-      #branch: master
+    on:
+      branch: master
     appveyor_repo_tag: true
