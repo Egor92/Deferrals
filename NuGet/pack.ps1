@@ -8,8 +8,8 @@ $content = $content -replace '\$version\$',$version
 
 $content | Out-File $root\NuGet\Egor92.Deferrals.compiled.nuspec
 
-& $root\NuGet\NuGet.exe pack $root\NuGet\Egor92.Deferrals.compiled.nuspec -outputdirectory $root\NuGet
+& $root\NuGet\NuGet.exe pack $root\NuGet\Egor92.Deferrals.compiled.nuspec -outputdirectory $root\Packages
 
 & $root\NuGet\NuGet.exe setApiKey Enbbe1MRpwxTk+l70bA1DfoJq62BO4S01RRKFDL4Fx83I/f3W4D4MQJTRXrNwkFj
 
-& $root\NuGet\NuGet.exe push $root\NuGet\Egor92.Deferrals.$version.nupkg
+& $root\NuGet\NuGet.exe push $root\Packages\Egor92.Deferrals.$version.nupkg
