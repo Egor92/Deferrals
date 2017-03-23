@@ -9,8 +9,8 @@
         <licenseUrl>https://github.com/Egor92/Deferrals/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/Egor92/Deferrals</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Provides functionality of algorithm pausing and resuming by subscribers</description>
-        <copyright>Copyright 2017 Novikov Egor</copyright>
+        <description>Provide possibility to pause and resume an algorithm by subscribers</description>
+        <copyright>Copyright © 2017 Novikov Egor</copyright>
         <tags>algorithm pause pausing resume resuming subcsribe subcsriber</tags>
     </metadata>
     <files>
