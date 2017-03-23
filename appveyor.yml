@@ -43,6 +43,6 @@ deploy:
     artifact: /artifacts\*.nupkg/
     draft: false
     prerelease: false
-    on:
+    #on:
       #branch: master
-      appveyor_repo_tag: true
+    appveyor_repo_tag: true
