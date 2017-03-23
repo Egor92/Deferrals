@@ -23,11 +23,12 @@ test:
   assemblies:
     - '**\*.Tests.dll'
     
-#after_test:
-#  - ps: .\nuget\pack.ps1
+after_test:
+  - ps: .\nuget\pack.ps1
 
-artifacts:
-  - path: Packages\*.nupkg/
+artifacts:  
+  - path: Artifacts\**\*.nupkg
+    name: NuGet
   
 deploy:
   # Deploying to NuGet feed
@@ -35,13 +36,13 @@ deploy:
     api_key:
       secure: Enbbe1MRpwxTk+l70bA1DfoJq62BO4S01RRKFDL4Fx83I/f3W4D4MQJTRXrNwkFj
     skip_symbols: false
-    artifact: /Packages\*.nupkg/
+    artifact: /Artifacts\*.nupkg/
   
   # Deploy to GitHub Releases
   - provider: GitHub
-    artifact: /Packages\*.nupkg/
+    artifact: /Artifacts\*.nupkg/
     draft: false
     prerelease: false
     on:
-      branch: master
+      #branch: master
       appveyor_repo_tag: true
